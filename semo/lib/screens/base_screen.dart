@@ -8,6 +8,7 @@ import "package:logger/logger.dart";
 import "package:index/components/spinner.dart";
 import "package:index/screens/landing_screen.dart";
 import "package:index/utils/navigation_helper.dart";
+import "package:index/config/app_config.dart";
 
 abstract class BaseScreen extends StatefulWidget {
   const BaseScreen({
@@ -21,8 +22,8 @@ abstract class BaseScreen extends StatefulWidget {
 }
 
 abstract class BaseScreenState<T extends BaseScreen> extends State<T> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  final FirebaseAuth? _auth = AppConfig.enableFirebase ? FirebaseAuth.instance : null;
+  final FirebaseAnalytics? _analytics = AppConfig.enableFirebase ? FirebaseAnalytics.instance : null;
   final InternetConnection _internetConnection = InternetConnection();
   late final StreamSubscription<InternetStatus> _connectionSubscription = _internetConnection.onStatusChange
       .listen((InternetStatus status) async {
@@ -111,8 +112,10 @@ abstract class BaseScreenState<T extends BaseScreen> extends State<T> {
 
   /// Log screen view to Firebase Analytics
   Future<void> _logScreenView() async {
+    if (!AppConfig.enableFirebase || _analytics == null) return;
+    
     try {
-      await _analytics.logScreenView(
+      await _analytics!.logScreenView(
         screenName: screenName,
         screenClass: widget.runtimeType.toString(),
       );
@@ -123,8 +126,10 @@ abstract class BaseScreenState<T extends BaseScreen> extends State<T> {
 
   /// Log custom event to Firebase Analytics
   Future<void> logAnalyticsEvent(String eventName, Map<String, Object>? parameters) async {
+    if (!AppConfig.enableFirebase || _analytics == null) return;
+    
     try {
-      await _analytics.logEvent(
+      await _analytics!.logEvent(
         name: eventName,
         parameters: parameters,
       );
@@ -137,7 +142,12 @@ abstract class BaseScreenState<T extends BaseScreen> extends State<T> {
   Future<dynamic> navigate(Widget destination, {bool replace = false}) async => NavigationHelper.navigate(context, destination, replace: replace);
 
   void _initAuthStateListener() {
-    _authSubscription = _auth.authStateChanges().listen((User? user) async {
+    if (!AppConfig.enableFirebase || _auth == null) {
+      setState(() => _isAuthenticated = false);
+      return;
+    }
+    
+    _authSubscription = _auth!.authStateChanges().listen((User? user) async {
       if (mounted) {
         setState(() => _isAuthenticated = user != null);
         if (user == null) {

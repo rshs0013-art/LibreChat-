@@ -54,7 +54,7 @@ class _SettingsScreenState extends BaseScreenState<SettingsScreen> {
               return ListTile(
                 selected: isSelected,
                 selectedColor: Theme.of(context).primaryColor,
-                selectedTileColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
+                selectedTileColor: Theme.of(context).primaryColor.withOpacity(0.2),
                 titleTextStyle: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
@@ -91,7 +91,7 @@ class _SettingsScreenState extends BaseScreenState<SettingsScreen> {
                 return ListTile(
                   selected: isSelected,
                   selectedColor: Theme.of(context).primaryColor,
-                  selectedTileColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
+                  selectedTileColor: Theme.of(context).primaryColor.withOpacity(0.2),
                   titleTextStyle: Theme.of(context).textTheme.displayMedium?.copyWith(
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),

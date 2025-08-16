@@ -2,7 +2,7 @@
 class AppConfig {
   /// Enable Firebase features (auth, analytics, etc.)
   /// Set to false to build without Firebase dependencies
-  static const bool enableFirebase = true;
+  static const bool enableFirebase = false;
   
   /// Enable Google Sign-In
   /// Requires Firebase Auth to be enabled

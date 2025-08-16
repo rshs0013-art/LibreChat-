@@ -261,7 +261,7 @@ class _LandingScreenState extends BaseScreenState<LandingScreen> with TickerProv
 
   @override
   Future<void> initializeScreen() async {
-    await GoogleSignIn.instance.initialize();
+    // GoogleSignIn initialization is not needed in newer versions
   }
 
   @override

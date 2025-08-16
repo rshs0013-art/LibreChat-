@@ -68,7 +68,7 @@ class Spinner {
       context: context,
       useRootNavigator: useRootNavigator,
       barrierDismissible: false,
-      barrierColor: barrierColor.withValues(alpha: barrierOpacity),
+      barrierColor: barrierColor.withOpacity(barrierOpacity),
       transitionDuration: transitionDuration,
       pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) => Container(),
       transitionBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget widget) => PopScope(

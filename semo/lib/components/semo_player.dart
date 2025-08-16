@@ -406,7 +406,7 @@ class _SemoPlayerState extends State<SemoPlayer> with TickerProviderStateMixin {
     child: Container(
       width: double.infinity,
       height: double.infinity,
-      color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.5),
+      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
       child: Stack(
         children: <Widget>[
           // Top controls
@@ -524,8 +524,8 @@ class _SemoPlayerState extends State<SemoPlayer> with TickerProviderStateMixin {
                     progress: _mediaProgress.progress,
                     total: _mediaProgress.total,
                     progressBarColor: Theme.of(context).primaryColor,
-                    baseBarColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
-                    bufferedBarColor: Theme.of(context).primaryColor.withValues(alpha: 0.5),
+                    baseBarColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                    bufferedBarColor: Theme.of(context).primaryColor.withOpacity(0.5),
                     thumbColor: Theme.of(context).primaryColor,
                     timeLabelTextStyle: Theme.of(context).textTheme.displaySmall,
                     timeLabelPadding: 10,

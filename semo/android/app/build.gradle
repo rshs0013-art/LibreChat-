@@ -17,9 +17,15 @@ if (localPropertiesFile.exists()) {
 def flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
 def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.voxin.index"
-    compileSdk = 33
+    compileSdk = 34
     ndkVersion = "27.2.12479018"
 
     compileOptions {
@@ -29,21 +35,32 @@ android {
 
     defaultConfig {
         applicationId = "com.voxin.index"
-        minSdkVersion flutter.minSdkVersion
-        targetSdk = 33
+        minSdkVersion 23
+        targetSdk = 34
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
         multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
         debug {
             // Debug build، ما يحتاج توقيع
             minifyEnabled false
+            shrinkResources false
         }
         release {
-            // Release build بدون توقيع، مناسب للتجربة فقط
+            signingConfig signingConfigs.release
             minifyEnabled false
+            shrinkResources false
         }
     }
 
